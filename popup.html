@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Form</title>
+    <style>
+        /* General reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Background blur when form is active */
+        body.blur-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(5px);
+            z-index: 5;
+        }
+
+        /* Popup form container */
+        .popup-form-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            z-index: 10;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .popup-form-container.active {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        /* Circle with empty image tag */
+        .circle {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 50%;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        input[type="submit"] {
+            background-color: #2a9d8f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.8rem;
+            border-radius: 5px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #21867a;
+        }
+
+        .open-popup-btn {
+            padding: 0.7rem 1.5rem;
+            background-color: #2a9d8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .open-popup-btn:hover {
+            background-color: #21867a;
+        }
+    </style>
+</head>
+<body>
+    <!-- Button to open the popup form -->
+    <button class="open-popup-btn">Open Form</button>
+    <!-- Popup form container -->
+    <div class="popup-form-container">
+        <div class="circle">
+            <img src="" alt="Logo" id="logo-image">
+        </div>
+        <h2>Let’s Connect With Us</h2>
+        <p>Kindly Complete The Form Below To Share Your Thoughts With Us, And We Will Promptly Respond To Your Inquiries.</p>
+        <form>
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" placeholder="+91 88888 88888">
+
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="abc@gmail.com" required>
+
+            <label for="company">Company (Optional)</label>
+            <input type="text" id="company" placeholder="Enter Company Name">
+
+            <label for="details">Requirement Details</label>
+            <textarea id="details" rows="4" placeholder="Write here"></textarea>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        const openPopupBtn = document.querySelector('.open-popup-btn');
+        const popupFormContainer = document.querySelector('.popup-form-container');
+        const body = document.body;
+
+        openPopupBtn.addEventListener('click', () => {
+            body.classList.add('blur-background');
+            popupFormContainer.classList.add('active');
+        });
+
+        popupFormContainer.addEventListener('click', (event) => {
+            if (event.target === popupFormContainer) {
+                body.classList.remove('blur-background');
+                popupFormContainer.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

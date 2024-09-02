@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* --------------------------form css---------------------------- */
+
+      /* Background blur when form is active */
+      body.blur-background::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        backdrop-filter: blur(5px);
+        z-index: 5;
+      }
+
+      /* Popup form container */
+      .popup-form-container {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 80vh;
+        transform: translate(-50%, -50%) scale(0);
+        background-color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        width: 70%;
+        max-width: 400px;
+        z-index: 10;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .popup-form-container.active {
+        display: block;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      /* Circle with empty image tag */
+      .circle {
+        padding: 10px;
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .circle img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      input,
+      textarea {
+        width: 90%;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 0.9rem;
+      }
+
+      input[type="submit"] {
+        background-color: #2a9d8f;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.8rem;
+        border-radius: 5px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #21867a;
+      }
+
+      .open-popup-btn {
+        padding: 0.7rem 1.5rem;
+        background-color: #2a9d8f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .open-popup-btn:hover {
+        background-color: #21867a;
+      }
+      /* --------------------------form css---------------------------- */
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .mainContainer {
+        background-image: url("./assets/bacgound.svg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: white;
+        width: 100vw;
+        height: 100vh;
+        padding: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logoWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 580px;
+        height: 580px;
+        overflow: hidden;
+        gap: 0px;
+      }
+      .logoContainer {
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+          circle,
+          rgba(34, 166, 153, 0.5),
+          transparent 70%
+        );
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 460px 460px;
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 60px;
+      }
+
+      /* button */
+
+      /* arrow  */
+      .container {
+        position: fixed;
+        width: 60%;
+        height: 60%;
+        max-width: 360px;
+      }
+
+      .svg-wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .svg-wrapper svg {
+        width: 100%;
+        height: 100%;
+        transform-origin: center center;
+        animation: rotate 5s infinite linear, fadeTail 5s infinite linear;
+      }
+
+      /* Rotate animation */
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(-360deg);
+        }
+      }
+
+      .figma-text {
+        font-family: "Dancing Script", cursive; /* Replace with your specific font-family if available */
+        font-size: 2rem;
+        color: #333;
+      }
+
+      .headerContainer {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 100vw;
+      }
+
+      /* Styling for the text */
+      .comingSoon {
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 10vw; /* Responsive font size */
+        font-weight: bold;
+        text-align: center;
+        color: #22a699;
+        background: linear-gradient(
+          to bottom,
+          rgba(34, 166, 153, 1) 0%,
+          rgba(34, 166, 153, 0) 100%
+        );
+        -webkit-background-clip: text; /* For WebKit-based browsers */
+        background-clip: text;
+        color: transparent; /* Set color to transparent to show gradient */
+        opacity: 0.5; /* Low opacity for the entire text */
+        overflow: hidden; /* Ensure the gradient does not extend beyond the container */
+        white-space: nowrap; /* Prevent text wrapping on large screens */
+      }
+
+      /* Media query for mobile screens */
+      @media screen and (max-width: 768px) {
+        .headerContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column; /* Stack "COMING" and "SOON" vertically */
+          width: 100vw;
+        }
+        .headerWrapper {
+          display: flex;
+          flex-direction: column;
+          gap: 0px;
+        }
+        .comingSoon {
+          display: block;
+          font-size: 20vw; /* Increase font size for mobile screens */
+          /* margin-left: 6%; */
+          /* margin-right: auto; */
+          margin: 0px;
+          white-space: normal; /* Allow text to wrap if needed */
+        }
+      }
+      /* styles.css */
+
+      /* styles.css */
+
+      .btn-wrapper {
+        padding: 5px;
+        border-radius: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        background-color: white;
+        top: 65%;
+      }
+
+      .gradient-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(to right, #101828, #22a699);
+        border-radius: 20px; /* Rounded corners */
+        cursor: pointer;
+        transition: all 0.4s ease; /* Smooth transition */
+        outline: none;
+        z-index: 1;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        overflow: hidden;
+      }
+
+      .gradient-button span {
+        margin-right: 10px;
+      }
+
+      .gradient-button svg {
+        width: 24px;
+        height: 24px;
+        fill: white;
+      }
+
+      /* The border gradient effect */
+      .gradient-button::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        z-index: -1;
+        border-radius: inherit;
+        background: linear-gradient(
+          to right,
+          #22a699,
+          #101828
+        ); /* Opposite gradient for border */
+        transition: all 0.4s ease;
+      }
+
+      /* Hover effects */
+      .gradient-button:hover {
+        background: linear-gradient(
+          to right,
+          #22a699,
+          #101828
+        ); /* Reverse background gradient */
+      }
+
+      .gradient-button:hover::before {
+        background: linear-gradient(
+          to right,
+          #101828,
+          #22a699
+        ); /* Reverse border gradient */
+        transform: scale(1.05); /* Slight grow effect */
+      }
+
+      .gradient-button:active {
+        transform: scale(0.95); /* Shrink on click */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow on click */
+      }
+      .loading {
+        background-color: #ddd;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="headerContainer">
+      <div class="headerWrapper">
+        <span class="comingSoon">COMING</span>
+        <span class="comingSoon">SOON</span>
+      </div>
+    </div>
+    <div class="mainContainer">
+      <div class="logoWrapper">
+        <div class="logoContainer">
+          <div class="container">
+            <div class="svg-wrapper">
+              <svg
+                width="484"
+                height="484"
+                viewBox="0 0 484 484"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M391.025 428.849L392.583 430.804L391.025 428.849ZM457.313 138.265L459.566 137.18L457.313 138.265ZM345.649 26.6449L346.733 24.3922L345.649 26.6449ZM188.751 9.0077L188.194 6.57054L188.751 9.0077ZM55.091 93.0504L53.1359 91.4923L55.091 93.0504ZM3.00002 242.096L5.50002 242.095L3.00002 242.096ZM55.2106 391.1L52.2433 362.385L28.8594 379.312L55.2106 391.1ZM242 483.5C296.715 483.5 349.808 464.92 392.583 430.804L389.466 426.895C347.576 460.305 295.582 478.5 242 478.5L242 483.5ZM392.583 430.804C435.359 396.687 465.282 349.056 477.451 295.712L472.576 294.6C460.659 346.84 431.356 393.485 389.466 426.895L392.583 430.804ZM477.451 295.712C489.62 242.368 483.314 186.472 459.566 137.18L455.061 139.35C478.318 187.622 484.493 242.36 472.576 294.6L477.451 295.712ZM459.566 137.18C435.817 87.8877 396.035 48.1208 346.733 24.3922L344.564 28.8976C392.845 52.1348 431.805 91.0784 455.061 139.35L459.566 137.18ZM346.733 24.3922C297.431 0.663695 241.533 -5.61991 188.194 6.57054L189.308 11.4449C241.543 -0.493201 296.284 5.66031 344.564 28.8976L346.733 24.3922ZM188.194 6.57054C134.854 18.761 87.2353 48.7029 53.1359 91.4923L57.0461 94.6084C90.4395 52.7049 137.073 23.3829 189.308 11.4449L188.194 6.57054ZM53.1359 91.4923C19.0365 134.282 0.47808 187.382 0.50002 242.097L5.50002 242.095C5.47851 188.513 23.6527 136.512 57.0461 94.6084L53.1359 91.4923ZM0.50002 242.097C0.518908 289.2 14.3073 335.096 39.9215 374.237L44.1053 371.5C19.0214 333.169 5.51854 288.223 5.50002 242.095L0.50002 242.097Z"
+                  fill="url(#paint0_linear_27_14206)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_27_14206"
+                    x1="252"
+                    y1="481"
+                    x2="51.5"
+                    y2="380.5"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="white" stop-opacity="0" />
+                    <stop offset="1" stop-color="#22A699" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <img width="38%" src="./assets/logo.png" alt="" />
+          <!-- button -->
+
+          <!-- button -->
+          <div class="btn-wrapper open-popup-btn">
+            <div class="button-container">
+              <button class="gradient-button">
+                <span>Contact Us</span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.25 5H10.75L15.75 12L10.75 19H15.25L20.25 12L15.25 5Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M8.25 5H3.75L8.75 12L3.75 19H8.25L13.25 12L8.25 5Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img src="./assets/ToggleText.png" alt="sorry" />
+        </div>
+      </div>
+    </div>
+    <!-- ------------form----------------------- -->
+    <div class="popup-form-container">
+      <div class="circle">
+        <img src="./assets/whiteLogo.svg" alt="Logo" id="logo-image" />
+      </div>
+      <h2>Let’s Connect With Us</h2>
+      <p>We are exited to Connect with you.</p>
+      <form id="contactForm">
+        <label for="name">Your Name *</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="+91 88888 88888" />
+
+        <label for="email">Email *</label>
+        <input type="email" id="email" placeholder="abc@gmail.com" required />
+
+        <label for="company">Company (Optional)</label>
+        <input type="text" id="company" placeholder="Enter Company Name" />
+
+        <label for="details">Requirement Details</label>
+        <textarea id="details" rows="4" placeholder="Write here"></textarea>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <!-- ------------form----------------------- -->
+  </body>
+  <script>
+    const openPopupBtn = document.querySelector(".open-popup-btn");
+    const popupFormContainer = document.querySelector(".popup-form-container");
+    const circleBtn = document.querySelector(".circle");
+    const body = document.body;
+
+    openPopupBtn.addEventListener("click", () => {
+      body.classList.add("blur-background");
+      popupFormContainer.classList.add("active");
+    });
+
+    popupFormContainer.addEventListener("click", (event) => {
+      if (event.target === popupFormContainer) {
+        body.classList.remove("blur-background");
+        popupFormContainer.classList.remove("active");
+      }
+    });
+
+    circleBtn.addEventListener("click", (event) => {
+      body.classList.remove("blur-background");
+      popupFormContainer.classList.remove("active");
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Get the submit button
+    const submitButton = event.target.querySelector('input[type="submit"]');
+
+    // Disable the button and change its text to indicate loading
+    submitButton.disabled = true;
+    submitButton.value = 'Submitting...';
+    submitButton.classList.add('loading');
+
+    console.log("processing form");
+
+    const formData = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        company: document.getElementById('company').value,
+        details: document.getElementById('details').value
+    };
+
+    fetch('https://aehter-minds-backend.vercel.app/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Form submitted successfully');
+        // Hide the popup and reset the form
+        body.classList.remove("blur-background");
+        popupFormContainer.classList.remove("active");
+    })
+    .catch(error => {
+        alert('Error submitting form');
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        // Re-enable the button and reset its text
+        submitButton.disabled = false;
+        submitButton.value = 'Submit';
+        submitButton.classList.remove('loading');
+    });
+});
+
+  </script>
+</html>
